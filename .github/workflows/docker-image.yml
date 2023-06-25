@@ -13,6 +13,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+    with:
+          node-version: 15.x
+      - name: Install dependencies
+        run: npm install --force
+ name: Generate build
+        run: npm run compile
+        env:
+          CI: false
+      # Share artifact inside workflow
+      - name: Share artifact inside workflow
+        uses: actions/upload-artifact@v1
+        
+         with:
+          name: demo.war
+          path: build/demo.war
+        
