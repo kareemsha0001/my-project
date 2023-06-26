@@ -1,42 +1,34 @@
-name: CI
-
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-  workflow_dispatch:
-
-jobs:
-  Docker:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: latest
-      
-      - name: setup git config
-        run: |
-          git config user.name "GitHub Actions Bot"
-          git config user.email "<>"
-      
-      - name: Dependecies
-        run: npm ci
-      
-      - name: Build
-        run: npm run build
-        
-      - name: Save version
-        id: version
-        run: echo ::set-output name=tag::$(echo $(node -p -e "require('./package.json').version"))
-      
-      - name: Login to GitHub Package Registry
-        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login docker.pkg.github.com -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-        
-      - name: Build Docker image
-        run: docker build . --file Dockerfile --tag 9738640201/docker_access_token:$(date +%s)
-     
-      - name: Docker push
-        run: docker push 9738640201/docker_access_token:${{steps.version.outputs.tag}}      
+name: DDI build
+on: [push]
  
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [15.14.0]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+      - name: Branch name
+        run: "echo running on branch ${GITHUB_REF##*/}"
+      - name: Clone repository
+        uses: actions/checkout@v2
+      - name: Use Node.js 15.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 15.x
+      - name: Install dependencies
+        run: npm install --force
+      - name: Generate build
+        run: npm run compile
+        env:
+          CI: false
+      # Share artifact inside workflow
+      - name: Share artifact inside workflow
+        uses: actions/upload-artifact@v1
+        with:
+          name: delivery-dashboard-ui.war
+          path: build/delivery-dashboard-ui.war
