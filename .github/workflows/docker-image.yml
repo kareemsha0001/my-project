@@ -10,13 +10,9 @@ jobs:
         with:
           node-version: '14'
           name: Install dependencies
-        run: npm install --force
-      - name: Generate build
-        run: npm run compile
-        env:
-          CI: false
+ 
       # Share artifact inside workflow
       - name: Share artifact inside workflow
         uses: actions/upload-artifact@v1
-          name: demo.war
-          path: build/demo.war
+          name:demo
+          path:demo.war
