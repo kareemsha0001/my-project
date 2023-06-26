@@ -3,6 +3,7 @@ WORKDIR c:\Users\SHA0001\Documents\GitHub\dockerapplication
 ENV PATH="./node_modules/.bin:$PATH"
 COPY . .
 RUN npm install react-scripts@5.0.1 -g --silent
+RUN npm install react-scripts --save
 
 # Copies your code file from your action repository to the filesystem path `/` of the container
  FROM jboss/wildfly
