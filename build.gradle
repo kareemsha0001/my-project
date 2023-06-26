@@ -1,0 +1,35 @@
+plugins {
+    id "com.moowork.node" version "1.2.0"
+    id 'war'
+}
+
+node {
+    // update node  version  when required
+    version = "15.14.0"
+    download = true
+}
+//workaround to do :nodeSetup for the first time through gradle.
+repositories.whenObjectAdded {
+    if (it instanceof IvyArtifactRepository) {
+        metadataSources {
+            artifact()
+        }
+    }
+}
+
+configurations {
+    npmBuild
+}
+task npmBuild(type: NpmTask, dependsOn: npmInstall) {
+    // workingDir needs to be customized.
+   // workingDir = file("/delivery-dashboard-ui")
+    args = ['run', 'build', 'legacy-peer-deps']
+}
+war {
+    from 'build/'
+    exclude 'libs/'
+    exclude 'tmp/'
+    archiveName = "delivery-dashboard-ui.war"
+
+}
+war.dependsOn npmBuild
