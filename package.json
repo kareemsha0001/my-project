@@ -1,5 +1,5 @@
 {
-  "name": "delivery-dashboard-ui",
+  "name": "project",
   "version": "0.1.0",
   "private": true,
   "proxy": "http://localhost:8080",
@@ -16,13 +16,13 @@
     "react-scripts": "^1.1.5",
     "web-vitals": "^2.1.4"
   },
-  "homepage": "http://localhost:8080/delivery-dashboard-ui",
+  "homepage": "http://localhost:8080/project",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "compile": "npm run build && cd build && jar -cvf delivery-dashboard-ui.war ."
+    "compile": "npm run build && cd build && jar -cvf project ."
   },
   "eslintConfig": {
     "extends": [
