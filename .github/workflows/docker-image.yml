@@ -35,7 +35,7 @@ jobs:
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login docker.pkg.github.com -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
       - name: Build Docker image
-        run: docker build . --file Dockerfile --tag 9738640201/DOCKER_ACCESS_TOKEN:${{steps.version.outputs.tag}}
+        run: docker build . --file Dockerfile --tag 9738640201/docker_access_token:${{steps.version.outputs.tag}}
         
       - name: Push to Docker Hub
         run: docker push 9738640201/tut:${{steps.version.outputs.tag}}
