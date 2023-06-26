@@ -9,10 +9,5 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '14'
-          name: Install dependencies
- 
-      # Share artifact inside workflow
-      - name: Share artifact inside workflow
-        uses: actions/upload-artifact@v1
-          name:demo
-          path:demo.war
+      - run: npm install -g bats
+      - run: bats -v
