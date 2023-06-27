@@ -1,0 +1,24 @@
+name: Build and Package
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build and Package
+        run: |
+          # Your build commands here
+          # For example:
+          ./gradlew build
+
+      - name: Create artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: myapp
+          path: path/to/your/warfile.war
